@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tarjeta de Detalle Imprimible | Para mi Tilvi • RyM Joyería</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #b98a3b;
+      --gold-light: #f5d485;
+      --berry: #77394c;
+      --paper: #fff9fb;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #f0edf0;
+      color: #2c2628;
+      min-height: 100vh;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Barra de control para impresión (se oculta al imprimir) */
+    .toolbar {
+      background: #ffffff;
+      border: 1px solid #e0d0d8;
+      border-radius: 50px;
+      padding: 10px 24px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 8px 24px rgba(119, 57, 76, 0.1);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-print {
+      background: linear-gradient(135deg, #77394c 0%, #bd4b6d 100%);
+      color: #ffffff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 25px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(119, 57, 76, 0.25);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-print:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(119, 57, 76, 0.35);
+    }
+
+    .btn-secondary {
+      background: #fdf5f8;
+      color: #77394c;
+      border: 1px solid #d4af37;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: #fae6ee;
+    }
+
+    /* Contenedor de la hoja imprimible */
+    .sheet {
+      background: #ffffff;
+      width: 100%;
+      max-width: 900px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+      border-radius: 8px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Grilla de tarjetas para cortar */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      width: 100%;
+      justify-items: center;
+    }
+
+    .card-preview {
+      width: 100%;
+      max-width: 380px;
+      border-radius: 6px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      border: 1px dashed #d0c0c8;
+      padding: 8px;
+      background: #ffffff;
+      text-align: center;
+    }
+
+    .card-preview img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 4px;
+    }
+
+    .card-label {
+      font-size: 11px;
+      color: #77394c;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
+
+    .card-dimensions {
+      font-size: 10px;
+      color: #887a80;
+      margin-top: 2px;
+    }
+
+    /* Estilos estrictos para impresión */
+    @media print {
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .toolbar, .no-print {
+        display: none !important;
+      }
+
+      .sheet {
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+      }
+
+      .cards-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15mm !important;
+        padding: 10mm !important;
+      }
+
+      .card-preview {
+        box-shadow: none !important;
+        border: 0.5px dashed #ccc !important;
+        page-break-inside: avoid;
+        padding: 2mm !important;
+      }
+
+      .card-preview img {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .card-label, .card-dimensions {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra de Herramientas -->
+  <header class="toolbar">
+    <button class="btn-print" onclick="window.print()">
+      <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+      <span>Imprimir Tarjetas (Ctrl + P)</span>
+    </button>
+    <a href="assets/tarjeta-detalle-d002-vertical.png" download="tarjeta-detalle-tilvi-vertical.png" class="btn-secondary">
+      Descargar Tarjeta Vertical (300 DPI)
+    </a>
+    <a href="assets/tarjeta-detalle-d002-cuadrada.png" download="tarjeta-detalle-tilvi-cuadrada.png" class="btn-secondary">
+      Descargar Tarjeta Cuadrada (300 DPI)
+    </a>
+    <a href="assets/qr-d002-luxury.png" download="qr-d002-luxury.png" class="btn-secondary">
+      Descargar Solo QR
+    </a>
+  </header>
+
+  <!-- Hoja Imprimible -->
+  <main class="sheet">
+    <div class="cards-grid">
+      <!-- Tarjeta 1: Vertical para Estuche/Sobre -->
+      <div class="card-preview">
+        <img src="assets/tarjeta-detalle-d002-vertical.png" alt="Tarjeta Vertical de Detalle - Para mi Tilvi" />
+        <div class="card-label">Formato Tarjetón de Lujo</div>
+        <div class="card-dimensions">Ideal para sobre o tarjeta de regalo (10 × 15 cm o 7 × 10.5 cm)</div>
+      </div>
+
+      <!-- Tarjeta 2: Cuadrada para Estuche de Joya -->
+      <div class="card-preview">
+        <img src="assets/tarjeta-detalle-d002-cuadrada.png" alt="Tarjeta Cuadrada de Estuche - Para mi Tilvi" />
+        <div class="card-label">Formato Estuche Cuadrado</div>
+        <div class="card-dimensions">Ideal para interior de caja de terciopelo (8 × 8 cm o 9 × 9 cm)</div>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>
