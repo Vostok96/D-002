@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="goldHeart" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5d485" />
+      <stop offset="50%" stop-color="#b98a3b" />
+      <stop offset="100%" stop-color="#bd4b6d" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="#fff1f5" stroke="#b98a3b" stroke-width="2" />
+  <path d="M32 48 C20 38 12 30 12 21 C12 14 17 9 24 9 C28 9 31 11 32 14 C33 11 36 9 40 9 C47 9 52 14 52 21 C52 30 44 38 32 48 Z" fill="url(#goldHeart)" filter="url(#glow)" />
+  <circle cx="26" cy="18" r="2" fill="#ffffff" opacity="0.8" />
+</svg>

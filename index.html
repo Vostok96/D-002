@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Para mi Tilvi | Homenaje Eterno • RyM Joyería</title>
+
+  <!-- Supresión inmediata de la insignia inyectada de Netlify -->
+  <style>
+    #nl-badge-frame, #nl-hud-frame, iframe[id^="nl-"], iframe[title*="Netlify" i] {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      position: absolute !important;
+      top: -99999px !important;
+      left: -99999px !important;
+    }
+  </style>
+  <script>
+    (function() {
+      const origCreate = document.createElement;
+      document.createElement = function(tag, opt) {
+        const el = origCreate.call(document, tag, opt);
+        if (tag && typeof tag === 'string' && tag.toLowerCase() === 'iframe') {
+          const origSet = el.setAttribute;
+          el.setAttribute = function(name, val) {
+            if (name === 'id' && (val === 'nl-badge-frame' || val === 'nl-hud-frame')) {
+              el.style.display = 'none';
+              setTimeout(function() { el.remove(); }, 0);
+            }
+            return origSet.call(document, name, val);
+          };
+        }
+        return el;
+      };
+
+      const obs = new MutationObserver(function(mutations) {
+        for (let i = 0; i < mutations.length; i++) {
+          const nodes = mutations[i].addedNodes;
+          for (let j = 0; j < nodes.length; j++) {
+            const n = nodes[j];
+            if (n.nodeType === 1) {
+              if (n.id === 'nl-badge-frame' || n.id === 'nl-hud-frame' || (n.tagName === 'IFRAME' && n.title && n.title.indexOf('Netlify') !== -1)) {
+                n.remove();
+              }
+              if (n.tagName === 'SCRIPT' && n.src && n.src.indexOf('/hud') !== -1) {
+                n.remove();
+              }
+            }
+          }
+        }
+      });
+      obs.observe(document.documentElement, { childList: true, subtree: true });
+    })();
+  </script>
+
+  <meta name="description" content="Para mi Tilvi. A dos años de tu partida, querida tía, tu presencia sigue habitando en cada rincón de nuestros días. Vuela alto, tía; aquí abajo, tu memoria vive y florece todos los días." />
+  <meta name="theme-color" content="#fff1f5" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <!-- Metadatos OpenGraph para previsualizaciones elegantes en WhatsApp y móviles -->
+  <meta property="og:title" content="Para mi Tilvi | Homenaje Eterno • RyM Joyería" />
+  <meta property="og:description" content="A dos años de tu partida, querida tía, tu esencia se ha vuelto eterna. Vuela alto; aquí abajo, tu memoria vive y florece todos los días." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/images/photo-01.jpg" />
+
+  <!-- Tipografías de Alta Joyería RyM -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            paper: '#fff7fa',
+            rose: {
+              DEFAULT: '#e67696',
+              soft: '#fbdde6',
+              mist: '#fff0f4',
+              deep: '#bd4b6d',
+            },
+            berry: '#77394c',
+            gold: {
+              light: '#f5d485',
+              DEFAULT: '#b98a3b',
+              dark: '#8c631e',
+            },
+            ink: '#2c2628',
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Montserrat"', 'Arial', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-paper text-ink antialiased selection:bg-rose-soft selection:text-berry">
+
+  <!-- Lienzo interactivo de pétalos y destellos dorados -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- PANTALLA DE APERTURA: SOBRE DE LUJO CON LACRE DORADO RYM -->
+  <div id="envelope-screen">
+    <div class="text-center mb-8 px-4 max-w-md animate-fade-in">
+      <span class="inline-block px-3.5 py-1 text-xs tracking-[0.25em] font-sans font-medium text-berry uppercase bg-white/80 backdrop-blur-sm rounded-full border border-gold/40 shadow-sm mb-3">
+        Joyería RyM • Homenaje Eterno
+      </span>
+      <h1 class="font-serif text-3xl sm:text-4xl text-berry font-semibold tracking-wide">
+        Para mi Tilvi
+      </h1>
+      <p class="font-sans text-xs sm:text-sm text-stone-600 mt-2 font-light leading-relaxed">
+        Un recuerdo eterno preparado con todo el amor de tu familia. Aquí abajo, tu memoria vive y florece todos los días.
+      </p>
+    </div>
+
+    <!-- Sobre Interactivo 3D -->
+    <div class="envelope-wrapper" id="envelope-trigger" role="button" aria-label="Abrir sobre de homenaje" tabindex="0">
+      <div class="envelope-back"></div>
+      <div class="envelope-flap-left"></div>
+      <div class="envelope-flap-right"></div>
+      <div class="envelope-flap-bottom"></div>
+      <div class="envelope-flap-top"></div>
+
+      <!-- Sello de Lacre de Oro -->
+      <div class="wax-seal" id="wax-seal-btn">
+        <svg class="w-6 h-6 text-amber-100 drop-shadow" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+        <span class="text-[9px] font-serif font-bold text-amber-100 tracking-widest mt-0.5">RyM</span>
+      </div>
+    </div>
+
+    <!-- Indicador de acción -->
+    <div class="mt-8 text-center animate-bounce">
+      <span class="inline-flex items-center gap-2 text-xs font-medium tracking-widest uppercase text-berry bg-white/85 backdrop-blur px-5 py-2.5 rounded-full border border-rose-deep/30 shadow-md">
+        <span>Toca el sello para abrir</span>
+        <svg class="w-4 h-4 text-rose-deep" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+        </svg>
+      </span>
+    </div>
+  </div>
+
+  <!-- AUDIO OFICIAL: CUANDO NOS VOLVAMOS A ENCONTRAR - CARLOS VIVES -->
+  <audio id="memorial-audio" preload="auto" loop>
+    <source src="assets/audio/cuando-nos-volvamos-a-encontrar.webm" type="audio/webm" />
+    <source src="assets/audio/cuando-nos-volvamos-a-encontrar.m4a" type="audio/mp4" />
+    <source src="assets/audio/cuando-nos-volvamos-a-encontrar.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- REPRODUCTOR FLOTANTE DE MÚSICA -->
+  <aside class="music-player-pill" id="music-pill">
+    <div class="vinyl-disc" id="vinyl-disc">
+      <div class="vinyl-center"></div>
+    </div>
+    <div class="flex flex-col text-left pr-1">
+      <span class="text-[11px] font-serif font-semibold text-berry leading-tight truncate max-w-[145px] sm:max-w-[195px]">
+        Cuando nos volvamos a encontrar
+      </span>
+      <span id="music-status-text" class="text-[9px] font-sans text-stone-500 uppercase tracking-wider">
+        Carlos Vives • Homenaje
+      </span>
+    </div>
+    <button id="toggle-audio-btn" class="p-2 text-berry hover:text-rose-deep transition-colors focus:outline-none" aria-label="Pausar o reproducir música">
+      <svg id="play-icon" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M8 5v14l11-7z" />
+      </svg>
+      <svg id="pause-icon" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+      </svg>
+    </button>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL DE LA DEDICATORIA -->
+  <main class="relative z-10 w-full overflow-hidden">
+
+    <!-- HERO: PRESENTACIÓN CONMEMORATIVA -->
+    <header class="pt-16 pb-10 sm:pt-24 sm:pb-14 px-4 text-center max-w-4xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/85 border border-gold/40 shadow-sm mb-7 backdrop-blur">
+        <svg class="w-3.5 h-3.5 text-gold" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+        </svg>
+        <span class="text-xs font-sans tracking-[0.2em] uppercase font-medium text-berry">
+          Celebrando tu Vida y tu Luz Eterna
+        </span>
+        <svg class="w-3.5 h-3.5 text-gold" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+        </svg>
+      </div>
+
+      <!-- Retrato de Honor Circular con Marco Dorado -->
+      <div class="memorial-portrait-frame cursor-pointer" onclick="openLightbox(0)" title="Ver retrato de Tilvi">
+        <img src="assets/images/photo-01.jpg" alt="Retrato de nuestra querida Tilvi" class="memorial-portrait-img" />
+      </div>
+
+      <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl text-berry font-bold tracking-tight mb-4 leading-tight">
+        Para mi <span class="gold-shimmer italic font-normal">Tilvi</span>
+      </h1>
+      <p class="font-serif text-xl sm:text-2xl text-rose-deep italic max-w-2xl mx-auto">
+        A dos años de tu partida, tu esencia se ha vuelto eterna y tu memoria florece todos los días
+      </p>
+
+      <div class="flex items-center justify-center gap-3 my-6">
+        <div class="h-[1px] w-16 bg-gradient-to-r from-transparent to-gold"></div>
+        <svg class="w-5 h-5 text-rose-deep heart-beat" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+        </svg>
+        <div class="h-[1px] w-16 bg-gradient-to-l from-transparent to-gold"></div>
+      </div>
+    </header>
+
+    <!-- CARTA DE DEDICATORIA CENTRAL -->
+    <section class="max-w-3xl mx-auto px-4 mb-20">
+      <div class="relative bg-white/95 rounded-2xl p-7 sm:p-14 shadow-2xl border border-rose-soft/80 backdrop-blur-md">
+        <!-- Decoración dorada en esquinas -->
+        <div class="absolute top-3 left-3 w-8 h-8 border-t-2 border-l-2 border-gold/55 rounded-tl-lg"></div>
+        <div class="absolute top-3 right-3 w-8 h-8 border-t-2 border-r-2 border-gold/55 rounded-tr-lg"></div>
+        <div class="absolute bottom-3 left-3 w-8 h-8 border-b-2 border-l-2 border-gold/55 rounded-bl-lg"></div>
+        <div class="absolute bottom-3 right-3 w-8 h-8 border-b-2 border-r-2 border-gold/55 rounded-br-lg"></div>
+
+        <div class="text-center">
+          <span class="font-serif italic text-rose-deep text-lg sm:text-xl block mb-5">
+            «Para mi Tilvi»
+          </span>
+
+          <div class="font-serif text-xl sm:text-2xl md:text-[26px] sm:leading-relaxed text-stone-800 leading-relaxed font-normal my-6 space-y-6 text-left sm:text-center">
+            <p>
+              “Dicen que el tiempo lo cura todo, pero el tiempo solo aprende a vivir con la ausencia de quienes amamos profundamente. A dos años de tu partida, <span class="font-semibold text-berry">querida tía</span>, tu presencia sigue habitando en cada rincón de nuestros días: en un recuerdo que nos saca una sonrisa, en un consejo tuyo que repetimos sin darnos cuenta, y en el calor del amor que nos dejaste sembrado en el pecho.”
+            </p>
+            <p>
+              “Tu paso por nuestras vidas fue un regalo inmenso, y aunque duele no tenerte físicamente, <span class="font-semibold text-berry">tu esencia se ha vuelto eterna</span>. Te extrañamos con el alma, con esa melancolía bonita de saber que fuiste y siempre serás parte fundamental de lo que somos. <span class="italic text-rose-deep font-semibold">Vuela alto, tía; aquí abajo, tu memoria vive y florece todos los días.</span>”
+            </p>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-rose-soft flex flex-col items-center">
+            <span class="text-xs uppercase tracking-widest font-sans text-stone-400 mb-1">
+              Por siempre en nuestros corazones,
+            </span>
+            <span class="font-serif text-2xl sm:text-3xl font-bold text-berry tracking-wide">
+              Te amo 💕
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN: GALERÍA COMPLETA DE LAS 12 FOTOGRAFÍAS -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 mb-24">
+      <div class="text-center mb-12">
+        <span class="text-xs font-sans tracking-[0.25em] uppercase text-rose-deep font-semibold">
+          Tu Vida en Nuestros Recuerdos
+        </span>
+        <h2 class="font-serif text-3xl sm:text-4xl text-berry font-bold mt-2">
+          Instantes que Viven para Siempre
+        </h2>
+        <p class="font-sans text-xs sm:text-sm text-stone-600 mt-2 max-w-lg mx-auto">
+          Doce postales de tu historia, tu alegría y el inmenso amor con el que abrazaste a cada uno de nosotros. Toca cualquier fotografía para verla en detalle.
+        </p>
+      </div>
+
+      <!-- Cuadrícula Polaroid de las 12 fotografías (3x4 en escritorio, 2x6 en tablet, 1x12 en móvil) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
+
+        <!-- Foto 1 -->
+        <article class="polaroid-card group" onclick="openLightbox(0)">
+          <div class="polaroid-img-wrapper">
+            <img src="assets/images/photo-01.jpg" alt="Retrato de nuestra querida Tilvi" loading="eager" />
+            <span class="polaroid-badge">01 / 12</span>
+          </div>
+          <p class="font-serif italic text-center text-stone-700 text-lg mt-3.5 group-hover:text-rose-deep transition-colors">
+            Tu mirada luminosa y esa sonrisa eterna que habita en nuestra alma
+          </p>
+        </article>
+
+        <!-- Foto 2 -->
+        <article class="polaroid-card group" onclick="openLightbox(1)">
+          <div class="polaroid-img-wrapper">
+            <img src="assets/images/photo-02.jpg" alt="Infancia y primeros pasos de Tilvi" loading="eager" />
+            <span class="polaroid-badge">02 / 12</span>
+          </div>
+          <p class="font-serif italic text-center text-stone-700 text-lg mt-3.5 group-hover:text-rose-deep transition-colors">
+            Tus primeros pasos llenos de ternura, inocencia y dulzura
+          </p>
+        </article>
+
+        <!-- Foto 3 -->
+        <article class="polaroid-card group" onclick="openLightbox(2)">
+          <div class="polaroid-img-wrapper">
+            <img src="assets/images/photo-03.jpg" alt="Recuerdo de infancia bendecida" loading="eager" />
+            <span class="polaroid-badge">03 / 12</span>
+          </div>
+          <p class="font-serif italic text-center text-stone-700 text-lg mt-3.5 group-hover:text-rose-deep transition-colors">
+            Una vida guiada siempre por la fe, la pureza y la luz de Dios
+          </p>
+        </article>
+
+        <!-- Foto 4 -->
+        <article class="polaroid-card group" onclick="openLightbox(3)">
+          <div class="polaroid-img-wrapper">
+            <img src="assets/images/photo-04.jpg" alt="Nuestro Matrimonio - Fortaleza y amor" loading="lazy" />
+            <span class="polaroid-badge">04 / 12</span>
+          </div>
+          <p class="font-serif italic text-center text-stone-700 text-lg mt-3.5 group-hover:text-rose-deep transition-colors">
+            El ejemplo de un amor valiente, incondicional y lleno de esperanza
+          </p>
+        </article>
+
+        <!-- Foto 5 -->
+        <article class="polaroid-card group" onclick="openLightbox(4)">
+          <div class="polaroid-img-wrapper">
+            <img src="assets/images/photo-05.jpg" alt="Navidad en familia junto al árbol" loading="lazy" />
+            <span class="polaroid-badge">05 / 12</span>
+          </div>
+          <p class="font-serif italic text-center text-stone-700 text-lg mt-3.5 group-hover:text-rose-deep transition-colors">
+            La calidez de tus abrazos iluminando cada Navidad en familia
+          </p>
+        </article>
+
+        <!-- Foto 6 -->
+        <article class="polaroid-card group" onclick="openLightbox(5)">
+          <div class="polaroid-img-wrapper">
+            <img src="assets/images/photo-06.jpg" alt="Sonrisas cómplices en familia" loading="lazy" />
+            <span class="polaroid-badge">06 / 12</span>
+          </div>
+          <p class="font-serif italic text-center text-stone-700 text-lg mt-3.5 group-hover:text-rose-deep transition-colors">
+            Cómplice de risas, consejos sabios y cariño verdadero
+          </p>
+        </article>
+
+        <!-- Foto 7 -->
+        <article class="polaroid-card group" onclick="openLightbox(6)">
+          <div class="polaroid-img-wrapper">
+            <img src="assets/images/photo-07.jpg" alt="Celebración familiar en casa" loading="lazy" />
+            <span class="polaroid-badge">07 / 12</span>
+          </div>
+          <p class="font-serif italic text-center text-stone-700 text-lg mt-3.5 group-hover:text-rose-deep transition-colors">
+            Tu presencia haciendo de cada reunión un recuerdo inolvidable
+          </p>
+        </article>
+
+        <!-- Foto 8 -->
+        <article class="polaroid-card group" onclick="openLightbox(7)">
+          <div class="polaroid-img-wrapper">
+            <img src="assets/images/photo-08.jpg" alt="Amor y ternura infinita" loading="lazy" />
+            <span class="polaroid-badge">08 / 12</span>
+          </div>
+          <p class="font-serif italic text-center text-stone-700 text-lg mt-3.5 group-hover:text-rose-deep transition-colors">
+            El calor del amor más tierno que dejaste sembrado en nuestro pecho
+          </p>
+        </article>
+
+        <!-- Foto 9 -->
+        <article class="polaroid-card group" onclick="openLightbox(8)">
+          <div class="polaroid-img-wrapper">
+            <img src="assets/images/photo-09.jpg" alt="Celebrando un cumpleaños feliz" loading="lazy" />
+            <span class="polaroid-badge">09 / 12</span>
+          </div>
+          <p class="font-serif italic text-center text-stone-700 text-lg mt-3.5 group-hover:text-rose-deep transition-colors">
+            Celebrando la dicha inmensa de haber compartido la vida contigo
+          </p>
+        </article>
+
+        <!-- Foto 10 -->
+        <article class="polaroid-card group" onclick="openLightbox(9)">
+          <div class="polaroid-img-wrapper">
+            <img src="assets/images/photo-10.jpg" alt="Gran familia unida alrededor de la mesa" loading="lazy" />
+            <span class="polaroid-badge">10 / 12</span>
+          </div>
+          <p class="font-serif italic text-center text-stone-700 text-lg mt-3.5 group-hover:text-rose-deep transition-colors">
+            Uniendo corazones y generaciones alrededor de nuestra familia
+          </p>
+        </article>
+
+        <!-- Foto 11 -->
+        <article class="polaroid-card group" onclick="openLightbox(10)">
+          <div class="polaroid-img-wrapper">
+            <img src="assets/images/photo-11.jpg" alt="Compartiendo juntos en la mesa" loading="lazy" />
+            <span class="polaroid-badge">11 / 12</span>
+          </div>
+          <p class="font-serif italic text-center text-stone-700 text-lg mt-3.5 group-hover:text-rose-deep transition-colors">
+            Momentos compartidos que hoy atesoramos como un regalo inmenso
+          </p>
+        </article>
+
+        <!-- Foto 12 -->
+        <article class="polaroid-card group" onclick="openLightbox(11)">
+          <div class="polaroid-img-wrapper">
+            <img src="assets/images/photo-12.jpg" alt="Familia unida honrando la memoria de Tilvi" loading="lazy" />
+            <span class="polaroid-badge">12 / 12</span>
+          </div>
+          <p class="font-serif italic text-center text-stone-700 text-lg mt-3.5 group-hover:text-rose-deep transition-colors">
+            Aquí abajo, tu memoria vive, nos une y florece todos los días
+          </p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- FRASE INTERCALADA DE LA CANCIÓN -->
+    <section class="py-12 bg-gradient-to-r from-rose-mist via-white to-rose-mist border-y border-rose-soft/80 text-center px-4 mb-20">
+      <div class="max-w-2xl mx-auto">
+        <svg class="w-8 h-8 text-rose-deep/40 mx-auto mb-3" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+        </svg>
+        <p class="font-serif text-2xl sm:text-3xl text-berry italic leading-relaxed">
+          “Cuando nos volvamos a encontrar, ya no habrá más tiempo que perder... Ese día, cuánto te diré...”
+        </p>
+        <span class="text-xs uppercase tracking-widest text-gold-dark font-sans font-medium mt-3 block">
+          — Cuando nos volvamos a encontrar • Carlos Vives
+        </span>
+      </div>
+    </section>
+
+    <!-- SECCIÓN FINAL: VIDEO ESPECIAL CON APAGADO AUTOMÁTICO DE LA CANCIÓN -->
+    <section id="video-section" class="max-w-3xl mx-auto px-4 sm:px-6 mb-24">
+      <div class="text-center mb-10">
+        <span class="inline-flex items-center gap-1.5 text-xs font-sans tracking-[0.25em] uppercase text-rose-deep font-semibold">
+          <svg class="w-4 h-4 text-gold" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
+          </svg>
+          <span>Recuerdo en Video</span>
+        </span>
+        <h2 class="font-serif text-3xl sm:text-4xl text-berry font-bold mt-2">
+          El Amor de Dios y la Dicha de Abrazarte
+        </h2>
+        <p class="font-sans text-xs sm:text-sm text-stone-600 mt-2 max-w-lg mx-auto">
+          Al reproducir este video, la música de fondo se apagará automáticamente para que puedas escuchar con claridad este recuerdo tan especial.
+        </p>
+      </div>
+
+      <div class="video-showcase-card">
+        <!-- Esquinas decorativas doradas -->
+        <div class="absolute top-3 left-3 w-7 h-7 border-t-2 border-l-2 border-gold/50 rounded-tl-lg pointer-events-none"></div>
+        <div class="absolute top-3 right-3 w-7 h-7 border-t-2 border-r-2 border-gold/50 rounded-tr-lg pointer-events-none"></div>
+        <div class="absolute bottom-3 left-3 w-7 h-7 border-b-2 border-l-2 border-gold/50 rounded-bl-lg pointer-events-none"></div>
+        <div class="absolute bottom-3 right-3 w-7 h-7 border-b-2 border-r-2 border-gold/50 rounded-br-lg pointer-events-none"></div>
+
+        <div class="video-container">
+          <video
+            id="memorial-video"
+            controls
+            playsinline
+            preload="metadata"
+            poster="assets/images/photo-04.jpg"
+          >
+            <source src="assets/video/recuerdo-tilvi.mp4" type="video/mp4" />
+            Tu navegador no soporta la reproducción de video.
+          </video>
+
+          <!-- Capa interactiva para iniciar el video y apagar la canción de fondo -->
+          <div id="video-play-overlay" class="video-play-overlay" role="button" aria-label="Reproducir video conmemorativo" tabindex="0">
+            <div class="video-play-btn-circle mb-4">
+              <svg class="w-9 h-9 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+            <span class="font-serif text-xl sm:text-2xl text-white font-semibold drop-shadow-md">
+              Toca para reproducir el video
+            </span>
+            <span class="font-sans text-[11px] text-amber-100/90 uppercase tracking-widest mt-1.5 bg-black/45 px-3.5 py-1 rounded-full border border-gold/40 backdrop-blur-sm">
+              La música de fondo se apagará automáticamente
+            </span>
+          </div>
+        </div>
+
+        <div class="mt-5 text-center px-2">
+          <p id="video-audio-notice" class="font-serif italic text-berry text-lg">
+            «Es imposible conocerte y no amarte... Cuán grande y maravilloso es el amor de Dios»
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- DETALLE INTERACTIVO: ENVIAR UN TE AMO AL CIELO -->
+    <section class="max-w-xl mx-auto px-4 text-center mb-20">
+      <div class="bg-white/90 p-8 rounded-2xl shadow-xl border border-rose-soft/80 backdrop-blur">
+        <h3 class="font-serif text-2xl sm:text-3xl text-berry font-bold mb-2">
+          Un abrazo hasta el cielo, querida Tilvi
+        </h3>
+        <p class="font-sans text-xs sm:text-sm text-stone-600 mb-6">
+          Toca el botón para elevar un destello de luz y un “Te amo 💕” en su memoria.
+        </p>
+
+        <button id="send-love-btn" class="love-btn px-8 py-3.5 rounded-full text-white font-sans text-sm font-semibold inline-flex items-center gap-2.5">
+          <svg class="w-5 h-5 heart-beat" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+          </svg>
+          <span>Enviar un “Te amo 💕” al cielo</span>
+        </button>
+
+        <div id="love-counter" class="text-xs font-sans text-stone-500 mt-4">
+          Destellos de amor enviados: <span id="hearts-count" class="font-semibold text-rose-deep">0</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PIE DE PÁGINA CON IDENTIDAD RYM JOYERÍA -->
+    <footer class="pt-12 pb-20 border-t border-rose-soft/80 bg-white/65 text-center px-4">
+      <div class="max-w-md mx-auto">
+        <div class="flex items-center justify-center gap-2 mb-3">
+          <span class="font-serif text-2xl font-bold text-berry tracking-wider">RyM</span>
+          <span class="text-gold text-lg">•</span>
+          <span class="font-sans text-xs tracking-widest text-stone-500 uppercase">Joyería</span>
+        </div>
+        <p class="font-sans text-xs text-stone-500 leading-relaxed">
+          Calidad en cada detalle. Una dedicatoria eterna creada para atesorar los recuerdos más valiosos.
+        </p>
+        <div class="mt-4 flex items-center justify-center gap-4 text-xs font-sans">
+          <a href="https://joyeria.rymgroup.org/" target="_blank" rel="noopener noreferrer" class="text-rose-deep hover:text-berry underline transition-colors">
+            Visitar Tienda Oficial RyM
+          </a>
+          <span class="text-stone-300">|</span>
+          <span class="text-stone-400">SKU: D-002</span>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- LIGHTBOX MODAL PARA LAS 12 FOTOGRAFÍAS -->
+  <div id="lightbox-modal" role="dialog" aria-modal="true" aria-label="Visualizador de fotos">
+    <!-- Botón Cerrar -->
+    <button class="absolute top-5 right-5 text-white/80 hover:text-white p-2 text-3xl focus:outline-none z-50" onclick="closeLightbox()" aria-label="Cerrar vista completa">
+      &times;
+    </button>
+
+    <!-- Botón Anterior -->
+    <button class="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white bg-black/40 hover:bg-black/70 p-3 rounded-full transition-all focus:outline-none z-50" onclick="prevPhoto()" aria-label="Foto anterior">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      </svg>
+    </button>
+
+    <!-- Botón Siguiente -->
+    <button class="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white bg-black/40 hover:bg-black/70 p-3 rounded-full transition-all focus:outline-none z-50" onclick="nextPhoto()" aria-label="Siguiente foto">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+    </button>
+
+    <!-- Imagen y pie de foto -->
+    <div class="lightbox-content">
+      <img id="lightbox-img" class="lightbox-img" src="" alt="Recuerdo en detalle" />
+      <div class="mt-4 text-center px-4">
+        <p id="lightbox-caption" class="font-serif italic text-rose-soft text-lg sm:text-xl"></p>
+        <span id="lightbox-index" class="text-xs font-sans text-stone-400 mt-1 block"></span>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
